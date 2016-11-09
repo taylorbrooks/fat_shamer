@@ -19,6 +19,7 @@ defmodule FatShamer.MessageController do
 
     conn
     |> put_status(201)
+    |> json
   end
 
   def create(conn, %{"Body" => body, "From" => from} = params) do
@@ -39,12 +40,14 @@ defmodule FatShamer.MessageController do
       {:error, message} ->
         conn
         |> put_status(500)
+        |> json
     end
   end
 
   def create(conn, _params) do
     conn
     |> put_status(201)
+    |> json
   end
 
   def send_response_text(to, message) do
