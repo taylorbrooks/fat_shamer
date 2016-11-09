@@ -24,6 +24,7 @@ config :fat_shamer, FatShamer.Repo,
   url: System.get_env("DATABASE_URL"),
   pool_size: 10,
   timeout: 90_000_000
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
