@@ -4,20 +4,6 @@ defmodule FatShamer.MessageController do
   import Ecto.Query
 
   def create(conn, %{"Body" => "last " <> limit, "From" => from} = params) do
-    IO.inspect("CONN")
-    IO.inspect("CONN")
-    IO.inspect("CONN")
-    IO.inspect("CONN")
-    IO.inspect("CONN")
-    conn |> IO.inspect
-
-    IO.inspect("PARAMS")
-    IO.inspect("PARAMS")
-    IO.inspect("PARAMS")
-    IO.inspect("PARAMS")
-    IO.inspect("PARAMS")
-    params |> IO.inspect
-
     limit = String.to_integer(limit)
 
     weights = Weight
@@ -29,31 +15,13 @@ defmodule FatShamer.MessageController do
     end)
     |> Enum.join(", ")
 
+    send_response_text(weights)
 
-    # pull out from, number
-    # Query DB for last <number> where from == from
-    # respond with list to string
-    # format for TwiML maybe
     conn
     |> put_status(201)
-    |> json(weights)
   end
 
   def create(conn, %{"Body" => body, "From" => from} = params) do
-    IO.inspect("CONN")
-    IO.inspect("CONN")
-    IO.inspect("CONN")
-    IO.inspect("CONN")
-    IO.inspect("CONN")
-    conn |> IO.inspect
-
-    IO.inspect("PARAMS")
-    IO.inspect("PARAMS")
-    IO.inspect("PARAMS")
-    IO.inspect("PARAMS")
-    IO.inspect("PARAMS")
-    params |> IO.inspect
-
     params = %{
       phone_number: from,
       weight: body |> String.to_integer,
@@ -64,19 +32,30 @@ defmodule FatShamer.MessageController do
     |> Repo.insert
     |> case do
       {:ok, _} ->
+        send_response_text("got it. thanks!")
+
         conn
         |> put_status(201)
-        |> json("hi")
       {:error, message} ->
         conn
         |> put_status(500)
-        |> json("da fuk?")
     end
   end
 
   def create(conn, _params) do
+    send_response_text("ummmm...")
+
     conn
     |> put_status(201)
-    |> json(%{"message" => "hi"})
+  end
+
+  def send_response_text(to, message) do
+    Task.async(fn ->
+      ExTwilio.Message.create(%{
+        body: message,
+        from: System.get_env("FAT_SHAMER_NUMBER"),
+        to: to
+      })
+    end)
   end
 end
