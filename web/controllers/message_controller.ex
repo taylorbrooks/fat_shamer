@@ -4,6 +4,7 @@ defmodule FatShamer.MessageController do
   import Ecto.Query
 
   def create(conn, %{"Body" => "last " <> limit, "From" => from}) do
+    IO.inspect conn
     limit = String.to_integer(limit)
 
     weights = Weight
@@ -26,6 +27,7 @@ defmodule FatShamer.MessageController do
   end
 
   def create(conn, %{"Body" => body, "From" => from}) do
+    IO.inspect conn
     params = %{
       phone_number: from,
       weight: body |> String.to_integer,
