@@ -77,6 +77,6 @@ defmodule FatShamer.MessageController do
   def create(conn, _params) do
     conn
     |> put_status(201)
-    |> json("hi")
+    |> json(%{"message" => "hi"})
   end
 end
