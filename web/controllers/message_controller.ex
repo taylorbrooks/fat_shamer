@@ -3,8 +3,21 @@ defmodule FatShamer.MessageController do
   alias FatShamer.{Weight, Repo}
   import Ecto.Query
 
-  def create(conn, %{"Body" => "last " <> limit, "From" => from}) do
-    IO.inspect conn
+  def create(conn, %{"Body" => "last " <> limit, "From" => from} = params) do
+    IO.inspect("CONN")
+    IO.inspect("CONN")
+    IO.inspect("CONN")
+    IO.inspect("CONN")
+    IO.inspect("CONN")
+    conn |> IO.inspect
+
+    IO.inspect("PARAMS")
+    IO.inspect("PARAMS")
+    IO.inspect("PARAMS")
+    IO.inspect("PARAMS")
+    IO.inspect("PARAMS")
+    params |> IO.inspect
+
     limit = String.to_integer(limit)
 
     weights = Weight
@@ -26,8 +39,21 @@ defmodule FatShamer.MessageController do
     |> json(weights)
   end
 
-  def create(conn, %{"Body" => body, "From" => from}) do
-    IO.inspect conn
+  def create(conn, %{"Body" => body, "From" => from} = params) do
+    IO.inspect("CONN")
+    IO.inspect("CONN")
+    IO.inspect("CONN")
+    IO.inspect("CONN")
+    IO.inspect("CONN")
+    conn |> IO.inspect
+
+    IO.inspect("PARAMS")
+    IO.inspect("PARAMS")
+    IO.inspect("PARAMS")
+    IO.inspect("PARAMS")
+    IO.inspect("PARAMS")
+    params |> IO.inspect
+
     params = %{
       phone_number: from,
       weight: body |> String.to_integer,
