@@ -19,6 +19,11 @@ config :fat_shamer, FatShamer.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :fat_shamer, FatShamer.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: System.get_env("DATABASE_URL"),
+  pool_size: 10,
+  timeout: 90_000_000
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
@@ -58,4 +63,3 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
