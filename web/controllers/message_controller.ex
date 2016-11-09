@@ -15,7 +15,7 @@ defmodule FatShamer.MessageController do
     end)
     |> Enum.join(", ")
 
-    send_response_text(weights)
+    send_response_text(from, weights)
 
     conn
     |> put_status(201)
@@ -32,7 +32,7 @@ defmodule FatShamer.MessageController do
     |> Repo.insert
     |> case do
       {:ok, _} ->
-        send_response_text("got it. thanks!")
+        send_response_text(from, "got it. thanks!")
 
         conn
         |> put_status(201)
@@ -43,8 +43,6 @@ defmodule FatShamer.MessageController do
   end
 
   def create(conn, _params) do
-    send_response_text("ummmm...")
-
     conn
     |> put_status(201)
   end
