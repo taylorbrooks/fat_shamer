@@ -22,6 +22,26 @@ defmodule FatShamer.MessageController do
     |> json(%{message: weights})
   end
 
+  def create(conn, %{"Body" => "clear", "From" => from} = params) do
+    Weight
+    |> where(phone_number: ^from)
+    |> Repo.delete_all
+
+    send_response_text(from, "CLEARED")
+
+    conn
+    |> put_status(201)
+    |> json(%{message: "clear"})
+  end
+
+  def create(conn, %{"Body" => "help", "From" => from} = params) do
+    send_response_text(from, "<weight> last clear")
+
+    conn
+    |> put_status(201)
+    |> json(%{message: "<weight> last clear"})
+  end
+
   def create(conn, %{"Body" => body, "From" => from} = params) do
     params = %{
       phone_number: from,

@@ -15,4 +15,20 @@ defmodule FatShamer.MessageControllerTest do
     assert conn.resp_body, "175, 176"
   end
 
+  test "clear", %{conn: conn} do
+    post conn, "/message", Fixture.weight_hook
+    conn = post conn, "/message", %{Fixture.weight_hook | "Body" => "clear"}
+    assert conn.resp_body, "clear"
+
+    conn = post conn, "/message", %{Fixture.weight_hook | "Body" => "last 2"}
+    assert conn.resp_body, ""
+  end
+
+  test "help", %{conn: conn} do
+    post conn, "/message", Fixture.weight_hook
+    conn = post conn, "/message", %{Fixture.weight_hook | "Body" => "help"}
+
+    assert conn.resp_body, "<weight> last clear"
+  end
+
 end
